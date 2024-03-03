@@ -1,0 +1,119 @@
+From c5ee407b72ebed103613e71b18e0b199ebd6b532 Mon Sep 17 00:00:00 2001
+From: Waseef Mohammad Khan <42672082+WMK15@users.noreply.github.com>
+Date: Sun, 3 Mar 2024 22:59:37 +0000
+Subject: [PATCH] Updated getDataPoint, getRatio, and added unit tests
+
+---
+ __pycache__/client3.cpython-311.pyc | Bin 0 -> 1931 bytes
+ client3.py                          |  11 +++++++----
+ client_test.py                      |   9 ++++++++-
+ 3 files changed, 15 insertions(+), 5 deletions(-)
+ create mode 100644 __pycache__/client3.cpython-311.pyc
+
+diff --git a/__pycache__/client3.cpython-311.pyc b/__pycache__/client3.cpython-311.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..71f10216e4cd781a1d02d86bcb82d7647fb0f3c5
+GIT binary patch
+literal 1931
+zcmaJBOK2NMbVmD;WJ$K<*iLQhux@c1r|~Z#jcc3+Cz8`Z<Jw6Z;zf;EYsbzivR2t$
+zHAIy`lpZ#ag9?ENnt~4{O$n4xLgS+gIrXFsq7efHLwm_hke+gB->fXl4m9(5^WK{`
+zZ{Ba_$55yPL3{k~-{faMLVq!$)j~VS%Rewecae%zoI!GP#WHqjkIbnanO8YkQ2B3=
+zEUE%PFY&43H4i&){O&=-53_>^_d(A?n9a7IilHx_$N`W;>0nEOaOsu}Xrr^m-MbQg
+zqiZkS!a)yCw{HUW!`2qsfA4;3BfKlN2f6=-^K!(GG$ePE2zW3qAAp-ha$vvK1dov1
+zBlpUE@<DQtbd#PL&<K)msb13a9aep$7oeZ?0qh_L0S3PJ@7ICR?Fsip5TKWItD*i~
+z3xVovQ}-e658c=^fr5x$^B6S!s^W`~&5LNH>je{<FAQC^tlaeYct%etnX9^KO;1fs
+zO^jd96XWJ7O+ES5y7mvmGqoF2I0arI4(7{y0PZ3`DuT|o9qZWIBMp0=_MXbM@%?_T
+zdtN)mw<X_jiYt1GTmkG*g+c(Kb-suhr^v7H;H6kNAuSlXnoki)$z&w!Dv`2;s6>^%
+zR5E#DN|r9Ik}NS43nU~}v6P&yWi5#crlqH@QLm-vlFOP(g`A<KNRw8~YcE)!M=%vu
+zGP+`o2voS9*DYeO*ib(lNH*pDAlpO@NC+|o01|7jVzKGOLj1zTPv>VpNq~`QlCsRi
+zS<U)5znqxU4P})iR@`MYom)$dnm5R(1=>a@6RC_wvevP&+)Wx>B~}cqUSL)m?5#-b
+z8W}(dZSynrV5I!s?fFvt&v0*<RL<4<-rcxS>l=5%6SeR}>D>RY>!H5#O(!I63^~Df
+zO7VIiTpp<`JrJsa(JDXs611b#Zm9vmaJM9)fZRnztm2(-z{AR|2ppCkNQtNLwse+Q
+z5=30nC4EJ5<CIh+C9Ce>%aXzL{RG0)yR+RwmQA)LNe25Ms1Llqz!VuhKpuu^4gdhp
+zy`ANuuZyK(y(?^AuLruzCvKgp@&g9@HK;F{TvN1cGFk90vaG36!7nM6bO`b`T@a5*
+z5a#KE??}_0=~sB9;B&8$hE2-No<2jlSbT1zpYmx_&r;C<+x0ctnKv>SZF$Tf@O(^*
+zicOjdi=W3YEKxk~=EpUanUGc1NHR%z4a$ZJpktL#oTLI2lxk9MON$q@=s5z{KsBr>
+z7Ud11s8n?8&7`6mAk$#qxm$e(#2FdvFLf)<EnFy#2xBns-N?Q2&8)$*$dHeW_kqXW
+ztC<DZ;4sFG!w3gU0oLm%RC0SA^;TP>AtL{gk^qa~E8&Ld#bXV$3wn4w*g(4=jQF5k
+zc*gZtx&G}?#Qv;2Tpq6AZx7u$bnD9PD-F~koWV_K<9cMU+;eB3GIwwOdGzSB=+Q^V
+zpUnI+vlZGBpN4+xdfMe2Tc{mdaH5N~=;HI}rDxGgPV{mudfACA)gnu_xa~Vrj~uYY
+zdN0_(`Bl)&pdGJIo_rMDB+g{4HW_n*V|Kj!VMTk;TaOOebLHc=&cj2o<92*A&-#|e
+zdUa9W840D@9No)KFjWhts_xkKg>1o2SEedc8*>ki|8V}%2b;r>PdbCMwZU1ZbJp>l
+WuK7+^-O=br`~bwD!M7cD^YI@rMd3jJ
+
+literal 0
+HcmV?d00001
+
+diff --git a/client3.py b/client3.py
+index 3fc09b7..ee1bdc9 100644
+--- a/client3.py
++++ b/client3.py
+@@ -35,14 +35,15 @@ def getDataPoint(quote):
+     stock = quote['stock']
+     bid_price = float(quote['top_bid']['price'])
+     ask_price = float(quote['top_ask']['price'])
+-    price = bid_price
++    price = (bid_price+ask_price)/2
+     return stock, bid_price, ask_price, price
+ 
+ 
+ def getRatio(price_a, price_b):
+     """ Get ratio of price_a and price_b """
+-    """ ------------- Update this function ------------- """
+-    return 1
++    if price_b == 0:
++        return 0 # avoid zero division error
++    return price_a/price_b
+ 
+ 
+ # Main
+@@ -52,8 +53,10 @@ if __name__ == "__main__":
+         quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+ 
+         """ ----------- Update to get the ratio --------------- """
++        prices = {}
+         for quote in quotes:
+             stock, bid_price, ask_price, price = getDataPoint(quote)
++            prices[stock] = price
+             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-        print("Ratio %s" % getRatio(price, price))
++        print("Ratio %s" % getRatio(prices["ABC"], prices["DEF"]))
+diff --git a/client_test.py b/client_test.py
+index af2bf26..6849347 100644
+--- a/client_test.py
++++ b/client_test.py
+@@ -1,5 +1,5 @@
+ import unittest
+-from client3 import getDataPoint
++from client3 import getDataPoint, getRatio
+ 
+ class ClientTest(unittest.TestCase):
+   def test_getDataPoint_calculatePrice(self):
+@@ -8,6 +8,8 @@ class ClientTest(unittest.TestCase):
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+     """ ------------ Add the assertion below ------------ """
++    assert(getDataPoint(quotes[0]), ('ABC', 120.48, 121.2, 120.84)) 
++    assert(getDataPoint(quotes[1]), ('DEF', 117.87, 121.68, 119.775))
+ 
+   def test_getDataPoint_calculatePriceBidGreaterThanAsk(self):
+     quotes = [
+@@ -15,9 +17,14 @@ class ClientTest(unittest.TestCase):
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+     """ ------------ Add the assertion below ------------ """
++    assert(getDataPoint(quotes[0]), ('ABC', 120.48, 119.2, 119.84))
++    assert(getDataPoint(quotes[1]), ('DEF', 117.87, 121.68, 119.775))
+ 
+ 
+   """ ------------ Add more unit tests ------------ """
++  def test_getRatio_calculatePriceAZero(self):
++    assert(getRatio(0, 100), 0)
++
+ 
+ 
+ 
+-- 
+2.43.0.windows.1
+
